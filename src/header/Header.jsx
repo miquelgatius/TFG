@@ -6,18 +6,18 @@ function Header() {
     <nav className="navbar">
       <ul className="header-list">
         <li>
-          <NavLink to="/bills" end>
-            <button className="header-button">Bills</button>
+          <NavLink className="header-button" to="/bills" end>
+            Bills
           </NavLink>
         </li>
         <li>
-          <NavLink to="/about">
-            <button className="header-button">About</button>
+          <NavLink className="header-button" to="/about">
+            About
           </NavLink>
         </li>
         <li className="login">
-          <NavLink to="/login">
-            <button className="header-button login"> Login </button>
+          <NavLink className=" header-button" to="/login">
+            Login
           </NavLink>
         </li>
       </ul>
