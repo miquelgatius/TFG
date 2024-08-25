@@ -4,35 +4,30 @@ import { useState } from "react";
 import { useEffect } from "react";
 
 const Bills = () => {
-  const [data, setData] = useState(null); // Step 1: State to store the API response
-  const [loading, setLoading] = useState(true); // State to handle loading state
-  const [error, setError] = useState(null); // State to handle errors
+  const [data, setData] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get("http://localhost:8080"); // Step 2: Axios GET request
-        console.log(response.data);
-        const normalizedData = Array.isArray(response.data)
-          ? response.data
-          : [response.data]; // Convert to array if not already an array
+        const response = await axios.get("http://localhost:8080/flats");
 
-        setData(normalizedData); // Step 3: Set the response data to state
+        const allFlats = response.data.flatMap((item) => item.flat);
+        setData(allFlats);
       } catch (err) {
-        setError(err); // Handle any errors
+        setError(err);
       } finally {
-        setLoading(false); // Stop loading when the request is complete
+        setLoading(false);
       }
     };
 
-    fetchData(); // Call the function to fetch data when the component mounts
-  }, []); // Empty dependency array to run once on mount
+    fetchData();
+  }, []);
 
-  if (loading) return <div>Loading...</div>; // Show loading message
-  if (error) return <div>Error: {error.message}</div>; // Show error message if there's an error
+  if (loading) return <div>Loading...</div>;
+  if (error) return <div>Error: {error.message}</div>;
 
-  // const apiCallInfo = apiCall();
-  // console.log(apiCallInfo);
   return (
     <div>
       <Header />
@@ -44,21 +39,21 @@ const Bills = () => {
             <tr>
               <th>Registry</th>
               <th>Address</th>
-              <th>Square meters</th>
+              <th>Square Meters</th>
             </tr>
           </thead>
           <tbody>
-            {data.map((item) => (
-              <tr key={item.registry}>
-                <td>{item.registry}</td>
-                <td>{item.address}</td>
-                <td>{item.meters}</td>
+            {data.map((flat) => (
+              <tr key={flat.registry}>
+                <td>{flat.registry}</td>
+                <td>{flat.address}</td>
+                <td>{flat.meters}</td>
               </tr>
             ))}
           </tbody>
         </table>
       ) : (
-        <div>No data available</div> // Handle case where there's no data
+        <div>No data available</div>
       )}
     </div>
   );
@@ -78,13 +73,13 @@ export default Bills;
               billId: 1,
               billDescription: "factura random 1",
               type: 10,
-              import: 123,
+              amount: 123,
             },
             {
               billId: 2,
               billDescription: "factura random 2",
               type: 1,
-              import: 321,
+              amount: 321,
             },
           ],
         },
@@ -101,13 +96,13 @@ export default Bills;
               billId: 22,
               billDescription: "factura xd 1",
               type: 30,
-              import: 666,
+              amount: 666,
             },
             {
               billId: 12,
               billDescription: "factura xd 2",
               type: 1,
-              import: 8888,
+              amount: 8888,
             },
           ],
         },
