@@ -5,6 +5,6 @@ const router = express.Router();
 
 router.post("/signup", signUp);
 router.post("/login", login);
-//router.get("/allusers", verifyToken, getAllUsers); No ho necessito de moment
+//router.get("/allusers", verifyToken, getAllUsers); // No ho necessito de moment
 router.get("/allusers", getAllUsers);
 module.exports = router;

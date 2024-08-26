@@ -67,16 +67,16 @@ exports.login = async (req, res) => {
     }
 
     // Generate JWT Token---- No tokens needed for authentication, yet.
-    /* const token = jwt.sign(
+    /*const token = jwt.sign(
       { userId: user._id, username: user.username },
       process.env.SECRET_KEY || "1234!@#%<{*&)",
       { expiresIn: "1h" }
-      
     );
- */
-    return res
-      .status(200)
-      .json({ message: "Login Successful", data: user, token });
+*/
+    //   return res
+    //     .status(200)
+    //     .json({ message: "Login Successful", data: user, token });
+    return res.status(200).json({ message: "Login Successful", data: user });
   } catch (error) {
     console.log(error.message);
     return res.status(500).json({ message: "Error during login" });
