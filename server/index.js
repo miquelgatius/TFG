@@ -1,44 +1,75 @@
 const express = require("express");
+const dotenv = require("dotenv");
+const { connectDatabase } = require("./config/database");
+//const User = require("./userModels");
+const userRouter = require("./routes/user.Routes");
+const billsRoutes = require("./routes/bills.Routes");
+
+//start dotenv to get environment variables
+dotenv.config();
+
 const app = express();
-const mongoose = require("mongoose");
-const cors = require("cors");
+const PORT = process.env.PORT || 8080;
 
-const port = 8080;
-const uri = "mongodb://localhost:27017/RealEstate";
+//connecting mongodb
+connectDatabase();
 
-app.use(cors());
+app.use(express.json());
 
-mongoose.connect(uri, { useNewUrlParser: true, useUnifiedTopology: true });
+//routes used on the server
+app.use("/user", userRouter);
+app.use("/bills", billsRoutes);
 
-//connecting to the database control.
+app.get("/", (req, res) => {
+  res.send("Welcome to the TFG REST api");
+});
+
+/*
+app.get("/flats", async (req, res) => {
+  try {
+    // Find all documents but only return the 'flat' field
+    const flats = await User.find({}, { flat: 1, _id: 0 });
+    res.json(flats);
+  } catch (err) {
+    console.error("Error retrieving flats:", err);
+    res.status(500).send("Error retrieving flats");
+  }
+});
+*/
+
+app.listen(PORT, () => {
+  console.log(`Server is running on port ${PORT}`);
+});
+/*const express = require("express");
+const dotenv = require("dotenv");
+const { connectDatabase } = require("./config/database");
+
+//const cors = require("cors");
+
+//creating the express root element
+const app = express();
+
+const PORT = process.env.PORT || 8080;
+
+
+//const uri = "mongodb://localhost:27017/RealEstate";
+//connecting mongodb
+connectDatabase();
+
+app.use(express.json());
+
+dotenv.config();
+app.get("/", (req, res) => {
+  res.send("Welcome to Nodejs Authentication Tutorial");
+});
+//mongoose.connect(uri, { useNewUrlParser: true, useUnifiedTopology: true });
+
 // Connect to MongoDB
 mongoose
   .connect(uri)
   .then(() => console.log("Connected to MongoDB"))
   .catch((err) => console.error("MongoDB connection error:", err));
-const userSchema = new mongoose.Schema(
-  {
-    username: { type: String, required: true, unique: true },
-    flat: [
-      {
-        registry: Number,
-        address: String,
-        meters: Number,
-        bills: [
-          {
-            billId: Number,
-            billDescription: String,
-            type: Number,
-            amount: Number,
-          },
-        ],
-      },
-    ],
-  },
-  { collection: "RealEstate" }
-);
 
-const User = mongoose.model("User", userSchema);
 
 // Define a route to get all users
 app.get("/", async (req, res) => {
@@ -64,6 +95,7 @@ app.get("/flats", async (req, res) => {
 });
 
 // Start the server
-app.listen(port, () => {
-  console.log(`Server is running on http://localhost:${port}`);
+app.listen(PORT, () => {
+  console.log(`Server is running on http://localhost:${PORT}`);
 });
+*/

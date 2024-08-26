@@ -12,7 +12,7 @@ const Bills = () => {
     const fetchData = async () => {
       try {
         const response = await axios.get("http://localhost:8080/flats");
-
+        console.log(response);
         const allFlats = response.data.flatMap((item) => item.flat);
         setData(allFlats);
       } catch (err) {
