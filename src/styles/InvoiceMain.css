@@ -1,0 +1,9 @@
+.invoice-main-style {
+  margin-top: 1vh;
+  background-color: whitesmoke;
+  height: 80vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8%;
+}

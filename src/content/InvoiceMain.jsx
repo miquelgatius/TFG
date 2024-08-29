@@ -2,6 +2,7 @@ import Header from "../header/Header";
 import axios from "axios";
 import { useState } from "react";
 import { useEffect } from "react";
+import "../styles/InvoiceMain.css";
 
 const InvoiceMain = () => {
   const [data, setData] = useState(null);
@@ -14,7 +15,7 @@ const InvoiceMain = () => {
       try {
         console.log(username);
         const response = await axios.get(
-          "http://localhost:8080/flats/flatsByUser",
+          "http://localhost:8080/realEstate/realEstateByUser",
           {
             params: { username: username },
           }
@@ -39,30 +40,33 @@ const InvoiceMain = () => {
   return (
     <div>
       <Header />
-      <h1>Bills Page</h1>
+      <section className="invoice-main-style">
+        <h1 className="flat-title">Real estate page</h1>
 
-      {data.length > 0 ? (
-        <table>
-          <thead>
-            <tr>
-              <th>Registry</th>
-              <th>Address</th>
-              <th>Square Meters</th>
-            </tr>
-          </thead>
-          <tbody>
-            {data.map((flat) => (
-              <tr key={flat.registry}>
-                <td>{flat.registry}</td>
-                <td>{flat.address}</td>
-                <td>{flat.meters}</td>
+        {data.length > 0 ? (
+          <table>
+            <thead>
+              <tr>
+                <th>Registry</th>
+                <th>Address</th>
+                <th>Square Meters</th>
+                <th>Edit</th>
               </tr>
-            ))}
-          </tbody>
-        </table>
-      ) : (
-        <div>No data available</div>
-      )}
+            </thead>
+            <tbody>
+              {data.map((flat) => (
+                <tr key={flat.registry}>
+                  <td>{flat.registry}</td>
+                  <td>{flat.address}</td>
+                  <td>{flat.meters}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        ) : (
+          <div>No data available</div>
+        )}
+      </section>
     </div>
   );
 };

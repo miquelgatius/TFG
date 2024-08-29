@@ -3,7 +3,7 @@ import LoggedPage from "./LoggedPage";
 import NotLoggedPage from "./NotLoggedPage";
 
 const Login = () => {
-  console.log(localStorage.getItem("username"));
+  /*  console.log(localStorage.getItem("username"));
   const username = localStorage.getItem("username");
 
   if (username !== "null") {
@@ -11,6 +11,8 @@ const Login = () => {
   } else {
     console.log("no");
   }
+    */
+
   return (
     <div>
       <Header />

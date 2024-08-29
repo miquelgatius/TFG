@@ -20,7 +20,7 @@ function Header() {
         </li>
         <li>
           <NavLink className="header-button" to="/invoice" end>
-            Flats
+            Real Estate
           </NavLink>
         </li>
         <li>
@@ -31,11 +31,11 @@ function Header() {
         <li className="login">
           {localStorage.getItem("username") !== "null" &&
           localStorage.getItem("username") ? (
-            <a className=" header-button" href="/login" onClick={logout}>
+            <a className="header-button" href="/login" onClick={logout}>
               Logout
             </a>
           ) : (
-            <NavLink className=" header-button" to="/login">
+            <NavLink className="header-button" to="/login">
               Login
             </NavLink>
           )}

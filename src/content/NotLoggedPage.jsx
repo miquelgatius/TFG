@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
+import "../styles/NotLoggedPage.css";
 
 const NotLoggedPage = () => {
   const [username, setUsername] = useState("");
@@ -68,7 +69,7 @@ const NotLoggedPage = () => {
         <div>
           <span>{errorMessage}</span>
         </div>
-        <div>
+        <div className="create-new-account">
           <a onClick={createUserNavigate}>Click here to create a new user</a>
         </div>
         <button type="submit">Login</button>

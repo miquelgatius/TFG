@@ -4,7 +4,7 @@ const { connectDatabase } = require("./config/database");
 //const User = require("./userModels");
 const cors = require("cors");
 const userRouter = require("./routes/user.Routes");
-const billsRoutes = require("./routes/bills.Routes");
+const realEstateRoutes = require("./routes/invoice.Routes");
 
 //start dotenv to get environment variables
 dotenv.config();
@@ -20,7 +20,7 @@ app.use(express.json());
 
 //routes used on the server
 app.use("/user", userRouter);
-app.use("/flats", billsRoutes);
+app.use("/realEstate", realEstateRoutes);
 
 app.get("/", (req, res) => {
   res.send("Welcome to the TFG REST api");

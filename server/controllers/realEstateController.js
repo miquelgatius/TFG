@@ -1,6 +1,6 @@
 const User = require("../userModels");
 
-exports.obtainFlatsByUser = async (req, res) => {
+exports.obtainRealEstateByUser = async (req, res) => {
   try {
     const queryUsername = req.query.username;
     const flats = await User.find(

@@ -1,0 +1,7 @@
+.create-new-account {
+  color: #007bff;
+}
+.create-new-account:hover {
+  text-decoration: underline;
+  cursor: pointer;
+}
