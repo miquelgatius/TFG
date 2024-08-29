@@ -2,7 +2,11 @@ const User = require("../userModels");
 
 exports.obtainFlatsByUser = async (req, res) => {
   try {
-    const flats = await User.find({}, { flat: 1, _id: 0 });
+    const queryUsername = req.query.username;
+    const flats = await User.find(
+      { username: queryUsername },
+      { flat: 1, _id: 0 }
+    );
     return res.status(200).json({ flats });
   } catch (error) {
     console.log(error.message);

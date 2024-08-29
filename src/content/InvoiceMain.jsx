@@ -3,17 +3,25 @@ import axios from "axios";
 import { useState } from "react";
 import { useEffect } from "react";
 
-const Bills = () => {
+const InvoiceMain = () => {
   const [data, setData] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const username = localStorage.getItem("username");
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get("http://localhost:8080/flats");
+        console.log(username);
+        const response = await axios.get(
+          "http://localhost:8080/flats/flatsByUser",
+          {
+            params: { username: username },
+          }
+        );
         console.log(response);
-        const allFlats = response.data.flatMap((item) => item.flat);
+        const allFlats = response.data.flats.flatMap((item) => item.flat);
+        console.log(allFlats);
         setData(allFlats);
       } catch (err) {
         setError(err);
@@ -59,7 +67,7 @@ const Bills = () => {
   );
 };
 
-export default Bills;
+export default InvoiceMain;
 
 /* const information = [
     {

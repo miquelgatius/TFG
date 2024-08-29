@@ -2,6 +2,7 @@ const express = require("express");
 const dotenv = require("dotenv");
 const { connectDatabase } = require("./config/database");
 //const User = require("./userModels");
+const cors = require("cors");
 const userRouter = require("./routes/user.Routes");
 const billsRoutes = require("./routes/bills.Routes");
 
@@ -14,11 +15,12 @@ const PORT = process.env.PORT || 8080;
 //connecting mongodb
 connectDatabase();
 
+app.use(cors());
 app.use(express.json());
 
 //routes used on the server
 app.use("/user", userRouter);
-app.use("/bills", billsRoutes);
+app.use("/flats", billsRoutes);
 
 app.get("/", (req, res) => {
   res.send("Welcome to the TFG REST api");

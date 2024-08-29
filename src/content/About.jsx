@@ -1,5 +1,7 @@
 import Header from "../header/Header";
-const Bills = () => {
+const About = () => {
+  //no test login without api
+  //localStorage.setItem("username", "test");
   return (
     <div>
       <Header />
@@ -8,4 +10,4 @@ const Bills = () => {
   );
 };
 
-export default Bills;
+export default About;
