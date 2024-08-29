@@ -41,6 +41,7 @@ const NotLoggedPage = () => {
   const createUserNavigate = () => {
     navigate("/createUser");
   };
+
   return (
     <div className="login-form">
       <h2>Login</h2>

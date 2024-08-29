@@ -8,19 +8,17 @@ import "./App.css";
 
 function App() {
   return (
-    <div>
-      <main className="">
-        <Router>
-          <Routes>
-            <Route path="/" element={<Login />} />
-            <Route path="login" element={<Login />} />
-            <Route path="createUser" element={<CreateUser />} />
-            <Route path="invoice" element={<Invoice />} />
-            <Route path="about" element={<About />} />
-          </Routes>
-        </Router>
-      </main>
-    </div>
+    <main className="main-content">
+      <Router>
+        <Routes>
+          <Route path="/" element={<Login />} />
+          <Route path="login" element={<Login />} />
+          <Route path="createUser" element={<CreateUser />} />
+          <Route path="invoice" element={<Invoice />} />
+          <Route path="about" element={<About />} />
+        </Routes>
+      </Router>
+    </main>
   );
 }
 
