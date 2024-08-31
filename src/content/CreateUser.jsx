@@ -1,6 +1,5 @@
 import { useState } from "react";
 import axios from "axios";
-import Header from "../header/Header";
 
 const CreateUser = () => {
   const [username, setUsername] = useState("");
@@ -44,10 +43,9 @@ const CreateUser = () => {
 
   return (
     <>
-      <Header />
-      <div className="login-form">
+      <section className="login-form">
         <h2>Please fill the fields to create a new user</h2>
-        <form onSubmit={submitCreateUser}>
+        <form className="form" onSubmit={submitCreateUser}>
           <div className="form-group">
             <label htmlFor="username">Username:</label>
             <input
@@ -70,22 +68,24 @@ const CreateUser = () => {
             />
           </div>
           <div className="form-group">
-            <label htmlFor="password">Confirm password:</label>
+            <label htmlFor="passwordConfirm">Confirm password:</label>
             <input
               type="password"
               id="passwordConfirm"
-              value={password}
+              value={passwordConfirm}
               onChange={(e) => setPasswordConfirm(e.target.value)}
               required
             />
           </div>
           <div>
-            <span>{errorMessage}</span>
+            <span className="error-message">{errorMessage}</span>
           </div>
           <div></div>
-          <button type="submit">Create new user</button>
+          <button className="login-button" type="submit">
+            Create new user
+          </button>
         </form>
-      </div>
+      </section>
     </>
   );
 };

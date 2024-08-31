@@ -48,7 +48,7 @@ const InvoiceMain = () => {
                 <th>Registry</th>
                 <th>Address</th>
                 <th>Square Meters</th>
-                <th>Edit</th>
+                <th>Actions</th>
               </tr>
             </thead>
             <tbody>
@@ -57,6 +57,17 @@ const InvoiceMain = () => {
                   <td>{flat.registry}</td>
                   <td>{flat.address}</td>
                   <td>{flat.meters}</td>
+                  <td>
+                    <button className="action-button">
+                      <img
+                        src="../assets/edit-1479-svgrepo-com.svg"
+                        alt="Edit image"
+                      />
+                    </button>
+                    <button className="action-button">
+                      <img src="../assets/delete.svg" alt="Delete image" />
+                    </button>
+                  </td>
                 </tr>
               ))}
             </tbody>
