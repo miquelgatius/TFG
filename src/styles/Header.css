@@ -1,18 +1,14 @@
-.navbar {
-  width: 80vw;
-  height: 8vh;
-  background-color: whitesmoke;
-  border-radius: 20px;
-  margin-bottom: 2%;
-}
 .header-list {
-  height: 8vh;
+  background-color: white;
+  font-size: 2rem;
   display: flex;
   flex-flow: row nowrap;
   justify-content: center;
   align-items: center;
   margin-top: 20px;
   gap: 1px;
+  padding: 2rem;
+  font-family: ui-sans-serif;
 }
 
 li {
@@ -25,17 +21,40 @@ li {
   max-height: 7vh;
 }
 
-.header-website-name {
+.nav-website-name {
   display: flex;
   padding-right: 20px;
-  font-size: 1.5vw;
   align-items: center;
+  flex: 1;
+}
+.nav-center-items {
+  display: flex;
+  justify-content: center;
+  flex: 3;
+  gap: 20px;
 }
 .header-button {
-  font-size: 2vw;
+  padding: 12px;
   color: black;
   text-decoration: none;
 }
 .header-button:hover {
-  text-decoration: underline;
+  background-color: rgb(241, 245, 249);
+  border-radius: 50px;
+}
+.nav-right-items {
+  flex: 1;
+  text-align: right;
+  padding-right: 30px;
+}
+
+.login-border {
+  border: 1px solid;
+  border-radius: 50px;
+}
+
+@media only screen and (max-width: 768px) {
+  .header-list {
+    font-size: 1rem;
+  }
 }

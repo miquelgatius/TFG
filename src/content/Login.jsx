@@ -1,4 +1,3 @@
-import Header from "../header/Header";
 import LoggedPage from "./LoggedPage";
 import NotLoggedPage from "./NotLoggedPage";
 
@@ -15,7 +14,6 @@ const Login = () => {
 
   return (
     <div>
-      <Header />
       {localStorage.getItem("username") !== "null" &&
       localStorage.getItem("username") ? (
         <LoggedPage />

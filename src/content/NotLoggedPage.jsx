@@ -43,9 +43,9 @@ const NotLoggedPage = () => {
   };
 
   return (
-    <div className="login-form">
+    <section className="login-form">
       <h2>Login</h2>
-      <form onSubmit={submitLogin}>
+      <form className="form" onSubmit={submitLogin}>
         <div className="form-group">
           <label htmlFor="username">Username:</label>
           <input
@@ -67,15 +67,17 @@ const NotLoggedPage = () => {
             required
           />
         </div>
-        <div>
+        <div className="error-message">
           <span>{errorMessage}</span>
         </div>
+        <button className="login-button" type="submit">
+          Login
+        </button>
         <div className="create-new-account">
           <a onClick={createUserNavigate}>Click here to create a new user</a>
         </div>
-        <button type="submit">Login</button>
       </form>
-    </div>
+    </section>
   );
 };
 

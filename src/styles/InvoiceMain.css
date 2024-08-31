@@ -1,9 +1,17 @@
-.invoice-main-style {
+.main {
+  display: flex;
+  display: row;
+  align-items: center;
+  justify-content: center;
+}
+.invoice-main {
   margin-top: 1vh;
-  background-color: whitesmoke;
-  height: 80vh;
+  height: 60vh;
+  width: 80vh;
   display: flex;
   flex-direction: column;
   align-items: center;
+  align-self: center;
+  justify-self: center;
   gap: 8%;
 }

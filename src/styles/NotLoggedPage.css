@@ -1,4 +1,54 @@
+.login-form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  background-color: white;
+  justify-content: center;
+  align-items: start;
+  height: 40vh;
+  width: 20vw;
+  padding-left: 3rem;
+  border-radius: 20px;
+  gap: 20px;
+}
+.form-group {
+  display: flex;
+  flex-direction: column;
+
+  label {
+    font-size: 1rem;
+    font-weight: 600;
+  }
+
+  input {
+    border-radius: 10px;
+    height: 3vh;
+    width: 17vw;
+  }
+}
+
+.login-button {
+  background-color: rgb(4, 120, 87);
+  color: white;
+  padding: 8px 16px 8px 16px;
+  border-radius: 10px;
+  border: 0;
+  font-weight: 500;
+}
+.login-button:hover {
+  background-color: rgb(15, 23, 49);
+}
+.error-message {
+  color: red;
+}
 .create-new-account {
+  align-self: center;
   color: #007bff;
 }
 .create-new-account:hover {

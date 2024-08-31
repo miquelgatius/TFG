@@ -1,4 +1,3 @@
-import Header from "../header/Header";
 import axios from "axios";
 import { useState } from "react";
 import { useEffect } from "react";
@@ -38,9 +37,8 @@ const InvoiceMain = () => {
   if (error) return <div>Error: {error.message}</div>;
 
   return (
-    <div>
-      <Header />
-      <section className="invoice-main-style">
+    <main className="main">
+      <section className="invoice-main">
         <h1 className="flat-title">Real estate page</h1>
 
         {data.length > 0 ? (
@@ -67,7 +65,7 @@ const InvoiceMain = () => {
           <div>No data available</div>
         )}
       </section>
-    </div>
+    </main>
   );
 };
 

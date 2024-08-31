@@ -8,9 +8,9 @@ function Header() {
     console.log(localStorage.getItem("username"));
   };
   return (
-    <nav className="navbar">
+    <nav>
       <ul className="header-list">
-        <li className="header-website-name">
+        <li className="nav-website-name">
           <img
             className="header-logo"
             src="../assets/invoice.svg"
@@ -18,24 +18,26 @@ function Header() {
           />
           <span>InvoiceControlHub</span>
         </li>
-        <li>
+        <li className="nav-center-items">
           <NavLink className="header-button" to="/invoice" end>
             Real Estate
           </NavLink>
-        </li>
-        <li>
           <NavLink className="header-button" to="/about">
             About
           </NavLink>
         </li>
-        <li className="login">
+        <li className="nav-right-items">
           {localStorage.getItem("username") !== "null" &&
           localStorage.getItem("username") ? (
-            <a className="header-button" href="/login" onClick={logout}>
+            <a
+              className="header-button login-border"
+              href="/login"
+              onClick={logout}
+            >
               Logout
             </a>
           ) : (
-            <NavLink className="header-button" to="/login">
+            <NavLink className="header-button login-border" to="/login">
               Login
             </NavLink>
           )}
