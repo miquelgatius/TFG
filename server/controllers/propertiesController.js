@@ -13,3 +13,36 @@ exports.obtainPropertiesByUser = async (req, res) => {
     return res.status(500).json({ message: "Error fetching flats" });
   }
 };
+
+exports.addNewProperty = async (req, res) => {
+  try {
+    //const queryUsername = req.query.username;
+    //const queryProperty = req.query.property;
+    const queryUsername = req.body.username;
+    const queryProperty = req.body.property;
+    const queryRegistry = req.body.property.registry;
+
+    // Check if the property exists exists
+    const existingProperty = await User.findOne({
+      username: queryUsername,
+      "properties.registry": Number(queryRegistry),
+    });
+
+    if (existingProperty) {
+      return res
+        .status(400)
+        .json({ message: "A property with this registry Already Exists" });
+    }
+
+    const properties = await User.findOneAndUpdate(
+      { username: queryUsername },
+      { $push: { properties: queryProperty } },
+      { new: false } // won't return the new updated data
+    );
+
+    return res.status(200).json({ properties });
+  } catch (error) {
+    console.log(error.message);
+    return res.status(500).json({ message: "Error adding a new property" });
+  }
+};

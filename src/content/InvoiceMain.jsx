@@ -2,6 +2,7 @@ import axios from "axios";
 import { useState } from "react";
 import { useEffect } from "react";
 import "../styles/InvoiceMain.css";
+import CreateNewPropertyButton from "./CreateNewPropertyButton";
 
 const InvoiceMain = () => {
   const [data, setData] = useState(null);
@@ -41,7 +42,6 @@ const InvoiceMain = () => {
     return (
       <div>
         <span className="first-login-error">First you must login.</span>
-        <button className="new-property-button">Add new property</button>
       </div>
     );
   }
@@ -82,7 +82,7 @@ const InvoiceMain = () => {
         ) : (
           <span>You own no properties</span>
         )}
-        <button className="new-property-button">Add new property</button>
+        <CreateNewPropertyButton />
       </section>
     </main>
   );
