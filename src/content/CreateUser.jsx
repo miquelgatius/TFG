@@ -36,7 +36,11 @@ const CreateUser = () => {
         //window.location.reload();
       } catch (error) {
         console.error("Error during creating new user:", error);
-        setErrorMessage("Creating new user has failed.");
+        if (error.response.data) {
+          setErrorMessage(error.response.data.message);
+        } else {
+          setErrorMessage("Creating new user has failed.");
+        }
       }
     }
   };

@@ -19,8 +19,9 @@ const About = () => {
           effortlessly.
         </p>
         <p>
-          This project is also my final degree project (TFG), showcasing the
-          skills and knowledge I’ve developed throughout my studies.
+          This project is also my final degree project (TFG) for Universitat
+          Oberta de Catalunya (UOC), showcasing the skills and knowledge I’ve
+          developed throughout my studies.
         </p>
       </div>
     </section>

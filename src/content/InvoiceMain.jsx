@@ -12,17 +12,18 @@ const InvoiceMain = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        console.log(username);
         const response = await axios.get(
-          "http://localhost:8080/realEstate/realEstateByUser",
+          "http://localhost:8080/properties/propertiesByUser",
           {
             params: { username: username },
           }
         );
         console.log(response);
-        const allFlats = response.data.flats.flatMap((item) => item.flat);
-        console.log(allFlats);
-        setData(allFlats);
+        const allProperties = response.data.properties.flatMap(
+          (item) => item.properties
+        );
+        console.log(allProperties);
+        setData(allProperties);
       } catch (err) {
         setError(err);
       } finally {
@@ -36,10 +37,19 @@ const InvoiceMain = () => {
   if (loading) return <div>Loading...</div>;
   if (error) return <div>Error: {error.message}</div>;
 
+  if (!username || username === "null") {
+    return (
+      <div>
+        <span className="first-login-error">First you must login.</span>
+        <button className="new-property-button">Add new property</button>
+      </div>
+    );
+  }
+
   return (
     <main className="main">
       <section className="invoice-main">
-        <h1 className="flat-title">Real estate page</h1>
+        <h1 className="flat-title">Properties page</h1>
 
         {data.length > 0 ? (
           <table>
@@ -59,10 +69,7 @@ const InvoiceMain = () => {
                   <td>{flat.meters}</td>
                   <td>
                     <button className="action-button">
-                      <img
-                        src="../assets/edit-1479-svgrepo-com.svg"
-                        alt="Edit image"
-                      />
+                      <img src="../assets/edit.png" alt="Edit image" />
                     </button>
                     <button className="action-button">
                       <img src="../assets/delete.svg" alt="Delete image" />
@@ -73,8 +80,9 @@ const InvoiceMain = () => {
             </tbody>
           </table>
         ) : (
-          <div>No data available</div>
+          <span>You own no properties</span>
         )}
+        <button className="new-property-button">Add new property</button>
       </section>
     </main>
   );

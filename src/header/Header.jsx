@@ -20,7 +20,7 @@ function Header() {
         </li>
         <li className="nav-center-items">
           <NavLink className="header-button" to="/invoice" end>
-            Real Estate
+            Properties
           </NavLink>
           <NavLink className="header-button" to="/about">
             About

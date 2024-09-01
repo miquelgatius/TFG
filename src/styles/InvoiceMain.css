@@ -19,17 +19,26 @@
 table {
   width: 100%;
   border-collapse: collapse;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  border-radius: 10px;
 }
 
 th,
 td {
   padding: 12px;
-  border: 1px solid #ddd;
   text-align: center;
 }
 
+td {
+  border-top: 1px solid rgb(205, 204, 204);
+}
+
 thead {
-  background-color: #f2f2f2;
+  background-color: #aeabab;
+}
+
+tbody tr:nth-child(odd) {
+  background-color: rgb(243, 243, 243);
 }
 
 tbody tr:nth-child(even) {
@@ -37,7 +46,7 @@ tbody tr:nth-child(even) {
 }
 
 tbody tr:hover {
-  background-color: #d4fbff;
+  background-color: #e0f8fb;
 }
 
 .action-button {
@@ -51,4 +60,20 @@ tbody tr:hover {
   background-image: "../assets/delete-icon.png";
   width: 20px;
   height: 20px;
+}
+
+.first-login-error {
+  font-weight: bold;
+  font-size: 2rem;
+}
+
+.new-property-button {
+  color: white;
+  background-color: black;
+  padding: 8px;
+
+  border-radius: 6px;
+}
+.new-property-button:hover {
+  background-color: rgb(47, 47, 47);
 }

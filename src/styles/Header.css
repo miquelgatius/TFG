@@ -22,6 +22,7 @@ li {
 }
 
 .nav-website-name {
+  color: rgb(26, 0, 159);
   display: flex;
   padding-right: 20px;
   align-items: center;
