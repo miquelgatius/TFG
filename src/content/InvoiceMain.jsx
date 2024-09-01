@@ -19,11 +19,11 @@ const InvoiceMain = () => {
             params: { username: username },
           }
         );
-        console.log(response);
+
         const allProperties = response.data.properties.flatMap(
           (item) => item.properties
         );
-        console.log(allProperties);
+
         setData(allProperties);
       } catch (err) {
         setError(err);
@@ -34,6 +34,26 @@ const InvoiceMain = () => {
 
     fetchData();
   }, []);
+
+  const deleteButton = async (registry) => {
+    console.log("registry :" + registry);
+    try {
+      const response = await axios.patch(
+        "http://localhost:8080/properties/deleteProperty",
+        {
+          username: username,
+          registry: registry,
+        }
+      );
+
+      console.log("Property deleted sucessfully.", response.data);
+
+      //reload the page to see the changes
+      window.location.reload();
+    } catch (error) {
+      console.error("Error during deleting property:", error);
+    }
+  };
 
   if (loading) return <div>Loading...</div>;
   if (error) return <div>Error: {error.message}</div>;
@@ -50,7 +70,6 @@ const InvoiceMain = () => {
     <main className="main">
       <section className="invoice-main">
         <h1 className="flat-title">Properties page</h1>
-
         {data.length > 0 ? (
           <table>
             <thead>
@@ -62,17 +81,21 @@ const InvoiceMain = () => {
               </tr>
             </thead>
             <tbody>
-              {data.map((flat) => (
-                <tr key={flat.registry}>
-                  <td>{flat.registry}</td>
-                  <td>{flat.address}</td>
-                  <td>{flat.meters}</td>
+              {data.map((property) => (
+                <tr key={property.registry}>
+                  <td>{property.registry}</td>
+                  <td>{property.address}</td>
+                  <td>{property.meters}</td>
                   <td>
                     <button className="action-button">
                       <img src="../assets/edit.png" alt="Edit image" />
                     </button>
                     <button className="action-button">
-                      <img src="../assets/delete.svg" alt="Delete image" />
+                      <img
+                        onClick={() => deleteButton(property.registry)}
+                        src="../assets/delete.svg"
+                        alt="Delete image"
+                      />
                     </button>
                   </td>
                 </tr>
@@ -89,53 +112,3 @@ const InvoiceMain = () => {
 };
 
 export default InvoiceMain;
-
-/* const information = [
-    {
-      username: "miquel",
-      flat: [
-        {
-          registry: 1237812387213,
-          address: "123 Main St, Apt 101",
-          bills: [
-            {
-              billId: 1,
-              billDescription: "factura random 1",
-              type: 10,
-              amount: 123,
-            },
-            {
-              billId: 2,
-              billDescription: "factura random 2",
-              type: 1,
-              amount: 321,
-            },
-          ],
-        },
-      ],
-    },
-    {
-      username: "ramon",
-      flat: [
-        {
-          registry: 66666666,
-          address: "123 666666 St, Apt 666",
-          bills: [
-            {
-              billId: 22,
-              billDescription: "factura xd 1",
-              type: 30,
-              amount: 666,
-            },
-            {
-              billId: 12,
-              billDescription: "factura xd 2",
-              type: 1,
-              amount: 8888,
-            },
-          ],
-        },
-      ],
-    },
-  ];
-  */
