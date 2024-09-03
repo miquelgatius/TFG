@@ -1,54 +1,71 @@
-//const { query } = require("express");
 const User = require("../userModels");
 
-exports.obtainPropertiesByUser = async (req, res) => {
+exports.obtainInvoicesByUserAndRegistry = async (req, res) => {
   try {
     const queryUsername = req.query.username;
-    const properties = await User.find(
-      { username: queryUsername },
-      { properties: 1, _id: 0 }
+    const queryRegistry = req.query.registry;
+    console.log("Username: " + queryUsername + " Registry: " + queryRegistry);
+    const invoicesQuery = await User.findOne(
+      {
+        username: queryUsername,
+        properties: { $elemMatch: { registry: queryRegistry } },
+      },
+      {
+        "properties.$": 1,
+      }
     );
-    return res.status(200).json({ properties });
+    const invoices = invoicesQuery.properties[0].invoices || [];
+    console.log(invoices);
+    return res.status(200).json({ invoices });
   } catch (error) {
     console.log(error.message);
-    return res.status(500).json({ message: "Error fetching properties" });
+    return res.status(500).json({ message: "Error fetching invoices." });
   }
 };
 
-exports.addNewProperty = async (req, res) => {
+exports.addNewInvoice = async (req, res) => {
   try {
     const queryUsername = req.body.username;
-    const queryProperty = req.body.property;
-    const queryRegistry = req.body.property.registry;
+    console.log("Username: " + queryUsername);
+    const queryInvoice = req.body.invoices;
 
-    console.log(req.body);
-
+    const queryRegistry = req.body.registry;
+    console.log("Registry: " + queryRegistry);
+    const queryInvoiceID = req.body.invoices.invoiceID;
+    console.log("InvoiceID: " + queryInvoiceID);
     // Check if the property exists exists
-    const existingProperty = await User.findOne({
+    const existingInvoice = await User.findOne({
       username: queryUsername,
-      "properties.registry": Number(queryRegistry),
+      properties: {
+        $elemMatch: {
+          registry: Number(queryRegistry),
+          "invoices.invoiceID": Number(queryInvoiceID),
+        },
+      },
     });
 
-    if (existingProperty) {
+    if (existingInvoice) {
       return res
         .status(400)
-        .json({ message: "A property with this registry Already Exists" });
+        .json({ message: "An invoice  with this ID Already Exists" });
+    } else {
+      console.log(" Invoice Doesn't Exists: " + existingInvoice);
     }
 
     const properties = await User.findOneAndUpdate(
-      { username: queryUsername },
-      { $push: { properties: queryProperty } },
+      { username: queryUsername, "properties.registry": queryRegistry },
+      { $push: { "properties.$.invoices": queryInvoice } },
       { new: false } // won't return the new updated data
     );
-
+    console.log("here3");
     return res.status(200).json({ properties });
   } catch (error) {
     console.log(error.message);
-    return res.status(500).json({ message: "Error adding a new property" });
+    return res.status(500).json({ message: "Error adding a new invoice" });
   }
 };
 
-exports.updateProperty = async (req, res) => {
+exports.updateInvoice = async (req, res) => {
   try {
     const queryUsername = req.body.username;
     const queryProperty = req.body.property;
@@ -64,7 +81,7 @@ exports.updateProperty = async (req, res) => {
     if (!existingProperty) {
       return res
         .status(400)
-        .json({ message: "A property with this registry doesn't exists." });
+        .json({ message: "An invoice with this ID doesn't exists." });
     }
 
     const updatedProperty = await User.findOneAndUpdate(
@@ -80,15 +97,15 @@ exports.updateProperty = async (req, res) => {
     );
 
     return res.status(200).json({
-      message: "A property has been updated succesfully." + updatedProperty,
+      message: "An invoice has been updated succesfully." + updatedProperty,
     });
   } catch (error) {
     console.log(error.message);
-    return res.status(500).json({ message: "Error updating property" });
+    return res.status(500).json({ message: "Error updating invoice." });
   }
 };
 
-exports.deleteProperty = async (req, res) => {
+exports.deleteInvoice = async (req, res) => {
   try {
     const queryUsername = req.body.username;
     const queryRegistry = req.body.registry;

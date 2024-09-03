@@ -1,15 +1,16 @@
 import { useState } from "react";
 import Modal from "react-modal";
 import axios from "axios";
-import "../styles/CreateNewPropertyButton.css";
+import "../../styles/CreateNewPropertyButton.css";
 
-const CreateNewPropertyButton = () => {
-  const [registry, setRegistry] = useState(0);
-  const [address, setAddress] = useState("");
-  const [meters, setMeters] = useState(0);
+const UpdatePropertyButton = (parameter) => {
+  const [registry, setRegistry] = useState(parameter.property.registry);
+  const [address, setAddress] = useState(parameter.property.address);
+  const [meters, setMeters] = useState(parameter.property.meters);
   const [errorMessage, setErrorMessage] = useState("");
   const [modalIsOpen, setModalIsOpen] = useState(false);
-  const URI = "http://localhost:8080/properties/addNewProperty";
+  const URI = "http://localhost:8080/properties/updateProperty";
+  const username = localStorage.getItem("username");
 
   const openModal = () => {
     setModalIsOpen(true);
@@ -19,7 +20,7 @@ const CreateNewPropertyButton = () => {
     setModalIsOpen(false);
   };
 
-  const createNewProperty = async (e) => {
+  const updateProperty = async (e) => {
     e.preventDefault();
     if (registry < 100000) {
       setErrorMessage("Registry is too short.");
@@ -29,23 +30,23 @@ const CreateNewPropertyButton = () => {
       setErrorMessage("Meters are too little.");
     } else {
       setErrorMessage("");
-      const username = localStorage.getItem("username");
+
       const property = {
         registry: registry,
         address: address,
         meters: meters,
       };
       try {
-        const response = await axios.patch(URI, {
+        const response = await axios.put(URI, {
           username,
           property,
         });
 
-        console.log("Added new property succesfully", response.data);
+        console.log("Updated a property sucessfully.", response.data);
 
         setModalIsOpen(false);
 
-        window.location.reload();
+        //window.location.reload();
       } catch (error) {
         if (error.response.data) {
           setErrorMessage(error.response.data.message);
@@ -58,9 +59,9 @@ const CreateNewPropertyButton = () => {
   };
 
   return (
-    <div>
-      <button onClick={openModal} className="new-property-button">
-        Add new property
+    <>
+      <button onClick={openModal} className="action-button">
+        <img src="../../assets/edit.png" alt="Delete image" />
       </button>
       <Modal
         isOpen={modalIsOpen}
@@ -69,9 +70,9 @@ const CreateNewPropertyButton = () => {
         className="modal"
         overlayClassName="overlay"
       >
-        <h2 className="modal-title">Create New Property</h2>
+        <h2 className="modal-title">Update a property.</h2>
         {
-          <form className="form" onSubmit={createNewProperty}>
+          <form className="form" onSubmit={updateProperty}>
             <div className="form-group">
               <label htmlFor="registry">Registry:</label>
               <input
@@ -115,16 +116,16 @@ const CreateNewPropertyButton = () => {
               </button>
               <button
                 className="modal-button add-button"
-                onClick={createNewProperty}
+                onClick={updateProperty}
               >
-                Add
+                Update
               </button>
             </div>
           </form>
         }
       </Modal>
-    </div>
+    </>
   );
 };
 
-export default CreateNewPropertyButton;
+export default UpdatePropertyButton;

@@ -4,7 +4,7 @@
   align-items: center;
   justify-content: center;
 }
-.invoice-main {
+.properties-main {
   margin-top: 1vh;
   height: 60vh;
   width: 80vh;
@@ -27,6 +27,7 @@ th,
 td {
   padding: 12px;
   text-align: center;
+  min-width: 13vw;
 }
 
 td {

@@ -11,10 +11,10 @@ const userSchema = new mongoose.Schema(
         meters: Number,
         invoices: [
           {
-            invoiceId: Number,
+            invoiceID: Number,
             invoiceDescription: String,
-            type: Number,
-            amount: Number,
+            invoiceType: Number,
+            invoiceAmount: Number,
           },
         ],
       },

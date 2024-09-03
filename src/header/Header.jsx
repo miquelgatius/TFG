@@ -19,7 +19,7 @@ function Header() {
           <span>InvoiceControlHub</span>
         </li>
         <li className="nav-center-items">
-          <NavLink className="header-button" to="/invoice" end>
+          <NavLink className="header-button" to="/properties" end>
             Properties
           </NavLink>
           <NavLink className="header-button" to="/about">
