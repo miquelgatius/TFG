@@ -17,6 +17,7 @@ const PropertyMain = () => {
   const navigateToInvoice = (passedRegistry) => {
     navigate(`/properties/${passedRegistry}`);
   };
+
   useEffect(() => {
     if (username && username !== "null") {
       const fetchData = async () => {

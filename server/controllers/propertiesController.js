@@ -92,8 +92,6 @@ exports.deleteProperty = async (req, res) => {
   try {
     const queryUsername = req.body.username;
     const queryRegistry = req.body.registry;
-    console.log("Username: " + queryUsername);
-    console.log("Registry: " + queryRegistry);
 
     // Check if the property exists exists
     const existingProperty = await User.findOne({
@@ -121,6 +119,6 @@ exports.deleteProperty = async (req, res) => {
       .json({ message: "A property has been deleted succesfully." });
   } catch (error) {
     console.log(error.message);
-    return res.status(500).json({ message: "Error adding a new property" });
+    return res.status(500).json({ message: "Error deleting a property" });
   }
 };

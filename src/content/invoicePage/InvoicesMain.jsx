@@ -2,9 +2,10 @@ import axios from "axios";
 import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import "../../styles/PropertyMain.css";
-import CreateNewPropertyButton from "../propertyPage/CreateNewPropertyButton";
-import DeletePropertyButton from "../propertyPage/DeletePropertyButton";
+import CreateNewInvoiceButton from "./CreateNewInvoiceButton";
+import DeleteInvoiceButton from "../invoicePage/DeleteInvoiceButton";
 import UpdatePropertyButton from "../propertyPage/UpdatePropertyButton";
+import InvoiceTableDate from "../invoicePage/InvoiceTableDate";
 
 const InvoicesMain = () => {
   const [data, setData] = useState(null);
@@ -23,7 +24,6 @@ const InvoicesMain = () => {
               params: { username: username, registry: registry },
             }
           );
-          console.log(response.data.invoices);
 
           const allInvoices = response.data.invoices.flatMap((item) => item);
 
@@ -52,7 +52,7 @@ const InvoicesMain = () => {
   return (
     <main className="main">
       <section className="properties-main">
-        <h1>Properties page</h1>
+        <h1>Invoice page for the flat with registry: {registry}</h1>
         {data.length > 0 ? (
           <table>
             <thead>
@@ -60,6 +60,7 @@ const InvoicesMain = () => {
                 <th>InvoiceID</th>
                 <th>Invoice Description</th>
                 <th>Type</th>
+                <th>Date</th>
                 <th>Amount</th>
                 <th>Actions</th>
               </tr>
@@ -70,19 +71,23 @@ const InvoicesMain = () => {
                   <td>{invoice.invoiceID}</td>
                   <td>{invoice.invoiceDescription}</td>
                   <td>{invoice.invoiceType}</td>
+                  <InvoiceTableDate invoiceDate={invoice.invoiceDate} />
                   <td>{invoice.invoiceAmount}</td>
                   <td>
                     <UpdatePropertyButton property={invoice} />
-                    <DeletePropertyButton registry={invoice.registry} />
+                    <DeleteInvoiceButton
+                      registry={registry}
+                      invoiceID={invoice.invoiceID}
+                    />
                   </td>
                 </tr>
               ))}
             </tbody>
           </table>
         ) : (
-          <span>You own no properties</span>
+          <span>You own no invoices.</span>
         )}
-        <CreateNewPropertyButton />
+        <CreateNewInvoiceButton registry={registry} />
       </section>
     </main>
   );

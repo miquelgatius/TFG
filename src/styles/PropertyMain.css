@@ -28,6 +28,8 @@ td {
   padding: 12px;
   text-align: center;
   min-width: 13vw;
+  max-width: 13vw;
+  word-wrap: break-word;
 }
 
 td {

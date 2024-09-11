@@ -14,6 +14,7 @@ const userSchema = new mongoose.Schema(
             invoiceID: Number,
             invoiceDescription: String,
             invoiceType: Number,
+            invoiceDate: Date,
             invoiceAmount: Number,
           },
         ],

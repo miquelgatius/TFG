@@ -4,7 +4,6 @@ exports.obtainInvoicesByUserAndRegistry = async (req, res) => {
   try {
     const queryUsername = req.query.username;
     const queryRegistry = req.query.registry;
-    console.log("Username: " + queryUsername + " Registry: " + queryRegistry);
     const invoicesQuery = await User.findOne(
       {
         username: queryUsername,
@@ -26,14 +25,11 @@ exports.obtainInvoicesByUserAndRegistry = async (req, res) => {
 exports.addNewInvoice = async (req, res) => {
   try {
     const queryUsername = req.body.username;
-    console.log("Username: " + queryUsername);
-    const queryInvoice = req.body.invoices;
-
+    const queryInvoice = req.body.newInvoice;
     const queryRegistry = req.body.registry;
-    console.log("Registry: " + queryRegistry);
-    const queryInvoiceID = req.body.invoices.invoiceID;
-    console.log("InvoiceID: " + queryInvoiceID);
-    // Check if the property exists exists
+    const queryInvoiceID = req.body.newInvoice.invoiceID;
+
+    // Check if the invoice exists
     const existingInvoice = await User.findOne({
       username: queryUsername,
       properties: {
@@ -51,13 +47,19 @@ exports.addNewInvoice = async (req, res) => {
     } else {
       console.log(" Invoice Doesn't Exists: " + existingInvoice);
     }
+    const filter = {
+      username: queryUsername,
+      "properties.registry": queryRegistry,
+    };
 
-    const properties = await User.findOneAndUpdate(
-      { username: queryUsername, "properties.registry": queryRegistry },
-      { $push: { "properties.$.invoices": queryInvoice } },
-      { new: false } // won't return the new updated data
-    );
-    console.log("here3");
+    const updateDocument = {
+      $push: {
+        "properties.$.invoices": queryInvoice,
+      },
+    };
+
+    const properties = await User.updateOne(filter, updateDocument);
+
     return res.status(200).json({ properties });
   } catch (error) {
     console.log(error.message);
@@ -109,35 +111,46 @@ exports.deleteInvoice = async (req, res) => {
   try {
     const queryUsername = req.body.username;
     const queryRegistry = req.body.registry;
+    const queryInvoiceID = req.body.invoiceID;
     console.log("Username: " + queryUsername);
     console.log("Registry: " + queryRegistry);
+    console.log("InvoiceID: " + queryInvoiceID);
 
-    // Check if the property exists exists
-    const existingProperty = await User.findOne({
+    // Check if the invoice exists
+    const existingInvoice = await User.findOne({
       username: queryUsername,
       "properties.registry": Number(queryRegistry),
+      "properties.invoices.invoiceID": Number(queryInvoiceID),
     });
 
-    if (!existingProperty) {
+    if (!existingInvoice) {
       return res
         .status(400)
-        .json({ message: "A property with this registry doesn't exist." });
+        .json({ message: "An invoice with this ID doesn't exist." });
     }
 
-    const propertiesDeleted = await User.updateOne(
-      { username: queryUsername },
-      { $pull: { properties: { registry: parseInt(queryRegistry) } } }
+    const invoicesDeleted = await User.updateOne(
+      { username: queryUsername, "properties.registry": queryRegistry },
+      {
+        $pull: {
+          "properties.$.invoices": {
+            invoiceID: Number(queryInvoiceID),
+          },
+        },
+      }
     );
 
-    if (propertiesDeleted.nModified === 0) {
-      return res.status(404).send("Property not found or already deleted");
+    if (invoicesDeleted.nModified === 0) {
+      return res
+        .status(404)
+        .send("Failed to delete, cannot be found or already deleted.");
     }
 
     return res
       .status(200)
-      .json({ message: "A property has been deleted succesfully." });
+      .json({ message: "An Invoice has been deleted succesfully." });
   } catch (error) {
     console.log(error.message);
-    return res.status(500).json({ message: "Error adding a new property" });
+    return res.status(500).json({ message: "Error deleting an invoice" });
   }
 };

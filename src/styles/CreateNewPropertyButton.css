@@ -2,7 +2,6 @@
   color: white;
   background-color: black;
   padding: 8px;
-
   border-radius: 6px;
 }
 .new-property-button:hover {
@@ -58,4 +57,12 @@
 }
 .add-button:hover {
   background-color: rgb(140, 154, 230);
+}
+
+.select-invoice-type {
+  min-height: 20px;
+  height: 3.5vh;
+  width: 17.4vw;
+  border-radius: 8px;
+  border-width: 2.5px;
 }
