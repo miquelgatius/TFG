@@ -3,17 +3,35 @@ import Modal from "react-modal";
 import axios from "axios";
 import "../../styles/CreateNewPropertyButton.css";
 
-const CreateNewInvoiceButton = (parameter) => {
-  const [invoiceID, setinvoiceID] = useState(1);
-  const [invoiceDescription, setInvoiceDescription] = useState("");
-  const [invoiceType, setInvoiceType] = useState(1);
-  const [invoiceDate, setInvoiceDate] = useState("2024-01-01");
-  const [invoiceAmount, setInvoiceAmount] = useState(0.0);
+const UpdateInvoiceButton = (parameter) => {
+  //function to change the date format to make it work in the input
+  //otherwise it doesn't show the default date from the database.
+  const formatDateForInput = (date) => {
+    const d = new Date(date);
+    const year = d.getFullYear();
+    let month = (d.getMonth() + 1).toString().padStart(2, "0");
+    let day = d.getDate().toString().padStart(2, "0");
+
+    return `${year}-${month}-${day}`;
+  };
+
+  const invoiceID = parameter.invoice.invoiceID;
+
+  const [invoiceDescription, setInvoiceDescription] = useState(
+    parameter.invoice.invoiceDescription
+  );
+  const [invoiceType, setInvoiceType] = useState(parameter.invoice.invoiceType);
+  const [invoiceDate, setInvoiceDate] = useState(
+    String(formatDateForInput(parameter.invoice.invoiceDate))
+  );
+  const [invoiceAmount, setInvoiceAmount] = useState(
+    parameter.invoice.invoiceAmount
+  );
   const [errorMessage, setErrorMessage] = useState("");
   const [modalIsOpen, setModalIsOpen] = useState(false);
-  const URI = "http://localhost:8080/invoices/addNewInvoice";
   const registry = parameter.registry;
   const regexAmountDecimal = /^\d+\.\d{2}$/;
+  const URI = "http://localhost:8080/invoices/updateInvoice";
   const username = localStorage.getItem("username");
 
   const openModal = () => {
@@ -22,10 +40,9 @@ const CreateNewInvoiceButton = (parameter) => {
 
   const closeModal = () => {
     setModalIsOpen(false);
-    console.log(invoiceDate);
   };
 
-  const createNewInvoice = async (e) => {
+  const updateInvoice = async (e) => {
     e.preventDefault();
 
     if (invoiceID < 100000) {
@@ -40,8 +57,7 @@ const CreateNewInvoiceButton = (parameter) => {
       setErrorMessage("Invoice amount must have exactly two decimals.");
     } else {
       setErrorMessage("");
-
-      const newInvoice = {
+      const invoice = {
         invoiceID: invoiceID,
         invoiceDescription: invoiceDescription,
         invoiceType: Number(invoiceType),
@@ -49,15 +65,14 @@ const CreateNewInvoiceButton = (parameter) => {
         invoiceAmount: invoiceAmount,
       };
 
-      console.log(invoiceDate);
       try {
-        const response = await axios.patch(URI, {
+        const response = await axios.put(URI, {
           username,
           registry,
-          newInvoice,
+          invoice,
         });
 
-        console.log("Added new invoice succesfully", response.data);
+        console.log("Updated an invoice succesfully", response.data);
 
         setModalIsOpen(false);
 
@@ -74,9 +89,9 @@ const CreateNewInvoiceButton = (parameter) => {
   };
 
   return (
-    <div>
-      <button onClick={openModal} className="new-property-button">
-        Add new Invoice
+    <>
+      <button onClick={openModal} className="action-button">
+        <img src="../../assets/edit.png" alt="Delete image" />
       </button>
       <Modal
         isOpen={modalIsOpen}
@@ -87,16 +102,10 @@ const CreateNewInvoiceButton = (parameter) => {
       >
         <h2 className="modal-title">Create New Invoice</h2>
         {
-          <form className="form" onSubmit={createNewInvoice}>
+          <form className="form" onSubmit={updateInvoice}>
             <div className="form-group">
               <label htmlFor="invoiceID">InvoiceID:</label>
-              <input
-                type="number"
-                id="invoiceID"
-                value={invoiceID}
-                onChange={(e) => setinvoiceID(e.target.value)}
-                required
-              />
+              <input type="number" id="invoiceID" value={invoiceID} readOnly />
             </div>
 
             <div className="form-group">
@@ -160,7 +169,7 @@ const CreateNewInvoiceButton = (parameter) => {
               </button>
               <button
                 className="modal-button add-button"
-                onClick={createNewInvoice}
+                onClick={updateInvoice}
               >
                 Add
               </button>
@@ -168,8 +177,8 @@ const CreateNewInvoiceButton = (parameter) => {
           </form>
         }
       </Modal>
-    </div>
+    </>
   );
 };
 
-export default CreateNewInvoiceButton;
+export default UpdateInvoiceButton;

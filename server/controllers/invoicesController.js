@@ -70,36 +70,59 @@ exports.addNewInvoice = async (req, res) => {
 exports.updateInvoice = async (req, res) => {
   try {
     const queryUsername = req.body.username;
-    const queryProperty = req.body.property;
-    const queryRegistry = req.body.property.registry;
-
+    const queryRegistry = req.body.registry;
+    const queryInvoice = req.body.invoice;
+    const queryInvoiceID = req.body.invoice.invoiceID;
+    console.log("Username: " + queryUsername);
+    console.log("Registry: " + queryRegistry);
+    console.log("InvoiceID: " + queryInvoiceID);
+    console.log("InvoiceID: " + queryInvoice);
     console.log("query registry: " + queryRegistry);
-    // Check if the property exists exists
-    const existingProperty = await User.findOne({
+
+    // Check if the invoice exists exists
+    const existingInvoice = await User.findOne({
       username: queryUsername,
       "properties.registry": Number(queryRegistry),
+      "properties.invoices.invoiceID": Number(queryInvoiceID),
     });
 
-    if (!existingProperty) {
+    if (!existingInvoice) {
       return res
         .status(400)
-        .json({ message: "An invoice with this ID doesn't exists." });
+        .json({ message: "An invoice with this ID doesn't exist." });
     }
 
-    const updatedProperty = await User.findOneAndUpdate(
-      { username: queryUsername, "properties.registry": queryRegistry },
+    const updatedInvoice = await User.findOneAndUpdate(
+      {
+        username: queryUsername,
+        "properties.registry": queryRegistry,
+        "properties.invoices.invoiceID": Number(queryInvoiceID),
+      },
       {
         $set: {
-          "properties.$.registry": queryProperty.registry,
-          "properties.$.address": queryProperty.address,
-          "properties.$.meters": queryProperty.meters,
+          "properties.$[property].invoices.$[invoice].invoiceID":
+            queryInvoice.invoiceID,
+          "properties.$[property].invoices.$[invoice].invoiceDescription":
+            queryInvoice.invoiceDescription,
+          "properties.$[property].invoices.$[invoice].invoiceType":
+            queryInvoice.invoiceType,
+          "properties.$[property].invoices.$[invoice].invoiceDate":
+            queryInvoice.invoiceDate,
+          "properties.$[property].invoices.$[invoice].invoiceAmount":
+            queryInvoice.invoiceAmount,
         },
       },
-      { new: true }
+      {
+        arrayFilters: [
+          { "property.registry": queryRegistry },
+          { "invoice.invoiceID": Number(queryInvoiceID) },
+        ],
+        new: true,
+      }
     );
 
     return res.status(200).json({
-      message: "An invoice has been updated succesfully." + updatedProperty,
+      message: "An invoice has been updated succesfully." + updatedInvoice,
     });
   } catch (error) {
     console.log(error.message);
@@ -112,9 +135,6 @@ exports.deleteInvoice = async (req, res) => {
     const queryUsername = req.body.username;
     const queryRegistry = req.body.registry;
     const queryInvoiceID = req.body.invoiceID;
-    console.log("Username: " + queryUsername);
-    console.log("Registry: " + queryRegistry);
-    console.log("InvoiceID: " + queryInvoiceID);
 
     // Check if the invoice exists
     const existingInvoice = await User.findOne({

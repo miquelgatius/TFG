@@ -4,7 +4,7 @@ import { useParams } from "react-router-dom";
 import "../../styles/PropertyMain.css";
 import CreateNewInvoiceButton from "./CreateNewInvoiceButton";
 import DeleteInvoiceButton from "../invoicePage/DeleteInvoiceButton";
-import UpdatePropertyButton from "../propertyPage/UpdatePropertyButton";
+import UpdateInvoiceButton from "../invoicePage/UpdateInvoiceButton";
 import InvoiceTableDate from "../invoicePage/InvoiceTableDate";
 
 const InvoicesMain = () => {
@@ -74,7 +74,10 @@ const InvoicesMain = () => {
                   <InvoiceTableDate invoiceDate={invoice.invoiceDate} />
                   <td>{invoice.invoiceAmount}</td>
                   <td>
-                    <UpdatePropertyButton property={invoice} />
+                    <UpdateInvoiceButton
+                      registry={registry}
+                      invoice={invoice}
+                    />
                     <DeleteInvoiceButton
                       registry={registry}
                       invoiceID={invoice.invoiceID}
