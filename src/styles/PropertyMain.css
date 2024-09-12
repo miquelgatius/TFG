@@ -16,6 +16,11 @@
   gap: 8%;
 }
 
+.table-title {
+  word-wrap: break-word;
+  width: 80vw;
+}
+
 table {
   width: 100%;
   border-collapse: collapse;
@@ -78,4 +83,11 @@ tbody tr:hover {
 }
 .new-property-button:hover {
   background-color: rgb(47, 47, 47);
+}
+
+@media (max-width: 480px) {
+  th,
+  td {
+    padding: 8px;
+  }
 }

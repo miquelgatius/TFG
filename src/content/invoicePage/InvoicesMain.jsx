@@ -52,7 +52,9 @@ const InvoicesMain = () => {
   return (
     <main className="main">
       <section className="properties-main">
-        <h1>Invoice page for the flat with registry: {registry}</h1>
+        <h1 className="table-title">
+          Invoice page for the flat with registry: {registry}
+        </h1>
         {data.length > 0 ? (
           <table>
             <thead>

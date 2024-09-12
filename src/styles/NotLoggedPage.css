@@ -57,3 +57,19 @@
   text-decoration: underline;
   cursor: pointer;
 }
+
+@media (max-width: 768px) {
+}
+
+@media (max-width: 480px) {
+  .form-group {
+    label {
+      font-size: 1rem;
+      font-weight: 600;
+    }
+
+    input {
+      width: 35vw;
+    }
+  }
+}
